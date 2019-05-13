@@ -427,12 +427,15 @@ export class Emitter
 	 * @param art A texture or array of textures to use for the particles.
 	 * @param config A configuration object containing settings for the emitter.
 	 */
-	public init(art: any, config: EmitterConfig|OldEmitterConfig)
+	public init(art: any, config: EmitterConfig|OldEmitterConfig, cleanupExistingParticles: boolean = true)
 	{
 		if(!art || !config)
 			return;
+
 		//clean up any existing particles
-		this.cleanup();
+		if (cleanupExistingParticles) {
+			this.cleanup();
+		}
 
 		//store the original config and particle images, in case we need to re-initialize
 		//when the particle constructor is changed
@@ -610,7 +613,10 @@ export class Emitter
 		this._prevPosIsValid = false;
 		//start emitting
 		this._spawnTimer = 0;
-		this.emit = config.emit === undefined ? true : !!config.emit;
+		if (!cleanupExistingParticles) {
+			this.emit = config.emit === undefined ? true : !!config.emit;
+		}
+
 		this.autoUpdate = !!config.autoUpdate;
 	}
 
