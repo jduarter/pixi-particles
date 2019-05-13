@@ -92,5 +92,5 @@
       "test/pixi-v5-module"
     ]
   },
-  "private": true
+  "private": false
 }
